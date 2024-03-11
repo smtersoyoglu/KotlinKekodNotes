@@ -1,20 +1,19 @@
-
 /**
 fun main() {
-    val treeHeight = 10 // Ağacın yüksekliği
+val treeHeight = 10 // Ağacın yüksekliği
 
-    // Ağacın gövdesini oluştur
-    for (i in 1..treeHeight) {
-        print(" ".repeat(treeHeight - i)) // Boşlukları ekle
-        print("*".repeat(i * 2 - 1)) // Yıldızları ekle
-        println() // Satırı değiştir
-    }
+// Ağacın gövdesini oluştur
+for (i in 1..treeHeight) {
+print(" ".repeat(treeHeight - i)) // Boşlukları ekle
+print("*".repeat(i * 2 - 1)) // Yıldızları ekle
+println() // Satırı değiştir
+}
 
-    // Ağacın gövdesi altındaki kısmı oluştur
-    for (i in 1..2) {
-        print(" ".repeat(treeHeight - 1))
-        println("*")
-    }
+// Ağacın gövdesi altındaki kısmı oluştur
+for (i in 1..2) {
+print(" ".repeat(treeHeight - 1))
+println("*")
+}
 }
  */
 

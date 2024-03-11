@@ -14,6 +14,14 @@ package basics.loop
  */
 
 fun main() {
+
+    // Değişken oluşturma
+    // var, val
+    // var -> bir değişkenin değerinin daha sonra değiştirilmesi durumu
+    // val -> sabit değere sahip bir değişken kurma
+
+
+
     // Long       Degiskenler icin sayinin sonuna 'L' konularak deger atamasi yapilabir.
     // Float      Degiskenler icin 'F' veya 'f' harfi konularak deger atamasi yapilabilir.
 
