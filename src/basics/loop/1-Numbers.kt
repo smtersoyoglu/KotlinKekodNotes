@@ -70,6 +70,14 @@ fun main() {
      * Sonrasında bir değer atarsak,heapde değişkenin değeri,stack'de ise değişkenin kendisi tutulmaya devam edilir.
      */
 
+    /**------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 
+    var a = Ders1()
+    //a.isMale = false  ---> burda değerini değiştirmemize izin vermez çünkü Ders1 class'ında set'ini private yaparak var bir değişkeni val yaptık
+}
+
+class Ders1 {
+    var isMale : Boolean = true
+        private set
 }
