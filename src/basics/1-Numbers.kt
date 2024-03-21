@@ -1,4 +1,4 @@
-package basics.loop
+package basics
 /**
  * Ozellikle challenglarda degiskenleri tanimlarken,veri tiplerindeki araliklara uygun degiskenler tanimlamayliz.
  * Bu,bir mobil uygulama icin cok buyuk bir problem degil,

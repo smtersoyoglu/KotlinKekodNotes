@@ -1,4 +1,4 @@
-package basics.loop
+package basics
 
 fun main() {
     /**
