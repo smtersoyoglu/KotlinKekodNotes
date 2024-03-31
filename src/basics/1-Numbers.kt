@@ -81,3 +81,4 @@ class Ders1 {
     var isMale : Boolean = true
         private set
 }
+
