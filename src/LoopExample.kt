@@ -1,5 +1,6 @@
 
 fun main() {
+
     val treeHeight = 10 // Ağacın yüksekliği
 
     // Ağacın gövdesini oluştur
@@ -23,6 +24,8 @@ fun main() {
         }
         println("*") // Alt kısımdaki yıldızı yazdır ve satırı değiştir
     }
+
+
 }
 
 

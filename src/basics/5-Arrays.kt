@@ -2,15 +2,25 @@ package basics
 
 fun main() {
     /**
-     * Ayni türden ya da belirtilen türün alt türünden,sabit sayıda veri tutan bir veri kümesi yapısıdır.
-     * En sık kullanılan versiyonu Object-Type Arrayler'dir.Array sınıfı ile temsil edilirler.
+     *    Ayni türden ya da belirtilen türün alt türünden, sabit sayıda veri tutan bir veri kümesi yapısıdır.
+     *    (belirli bir sayıda belirttiğimiz özel bir tipte ya da herhangi bir tipte veri tutan veri yapılarına Array'ler denir.)
+     *    En sık kullanılan versiyonu Object-Type Arrayler'dir. Array sınıfı ile temsil edilirler.
 
-     * Array classindan miras alacak sekilde arrayler olusturuyorsak,bunlar referans tipli arraylar olur.
-     * Eğer primitive tipleri Object-Type Array olarak kullanırsanız Boxed kullanım yapmış olursunuz.
-     * Bu da performansa etki eder.Eğer sadece primitivlerden oluşan arrayler oluşturcaksanız,
-     * bu durumda Primitive Type Arrayler kullanmalıyız.
-     * ByteArray(byte[]),ShorArray(short[]),IntArray(int[]),LongArray(long[]),DoubleArray(double[]),FloatArray(float[]),
-     * BooleanArray(boolean[]),CharArray(char[])
+     *    Array classindan miras alacak sekilde arrayler olusturuyorsak,bunlar referans tipli arraylar olur.
+     *
+     *    Eğer primitive tipleri Object-Type Array olarak kullanırsanız Boxed kullanım yapmış oluruz.
+     *    Bu da performansa etki eder. Eğer sadece primitivlerden oluşan arrayler olusturacaksak,
+     *    bu durumda Primitive Type Arrayler kullanmalıyız.
+     *
+     *    ByteArray(byte[]),ShorArray(short[]),IntArray(int[]),LongArray(long[]),DoubleArray(double[]),FloatArray(float[]),
+     *    BooleanArray(boolean[]),CharArray(char[])
+     *
+     *
+     *    arrayof(ayni tip degerler) seklinde tanimlanabilir.
+     *    arrayOf<Any>(farkli tip degerler) seklinde tanimlanabilir.
+     *    arrayOfNulls<Type>(size) ise verilen boyut kadar null deger iceren bir dizi tanimlanabilir.
+     *    emptyArray() bos array tanimlar.
+     *
      */
 
     /**
@@ -19,24 +29,12 @@ fun main() {
      * Veri ekleme,veri çıkarma gibi işlemler yapacaksak,collectionsları kullanmamız daha uygundur.
      */
 
-
-    /**
-     * arrayof(ayni tip degerler) seklinde tanimlanabilir.
-     * arrayOf<Any>(farkli tip degerler) seklinde tanimlanabilir.
-     * arrayOfNulls<Type>(size) ise verilen boyut kadar null deger iceren bir dizi tanimlanabilir.
-     * emptyArray() bos array tanimlar.
-     */
-
-    val studentNumbers = arrayOf(13, 45, 52, 64, 10, 20) // Sırası önemli degildir.
-    val studentNumbers2 = arrayOf<Int>(
-        13, 45, 52, 64, 10, 20
-    ) // Aynı şekilde hepsi aynı tip veriden olusuyorsa interface kullanimina gerek yoktur.(<Int>)
-
-    val studentNames = arrayOf("Ahmet", "Ayşe", "Veli", "Derya")
-    val firstCharOfNames = arrayOf('A', 'B', 'C', 'D')
-    val mixedArray = arrayOf<Any>(1, "A", true, 'C')//Farkli tipte verileri arrayin icerisine koyabiliyoruz.
-    //<Any> buradaki interfacedir.Arayüz ve interface aynı seydir.
-    //<
+    //                   index =  0  1   2   3   4   5
+    val studentNumbers = arrayOf(13, 45, 53, 17, 21, 10) // Sırası önemli degildir.
+    val studentNames = arrayOf("Ahmet", "Buket", "Veli", "Derya")
+    val firstCharOfNames = arrayOf('A', 'B', 'V', 'D')
+    val mixedArray = arrayOf<Any>(17, "Buket", 'V', true)// Herhangi bir tipten veriyi array'in icerisine koyabiliyoruz.
+    //<Any> tüm tiplerin üzerinde bulunan bir class, buradaki interfacedir.Arayüz ve interface aynı seydir.
 
 
     val arrayofNulls = arrayOfNulls<String>(4)//Tipini ve size'ini belirtmek zorundayiz.
