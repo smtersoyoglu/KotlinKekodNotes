@@ -15,11 +15,14 @@ fun main() {
      *    ByteArray(byte[]),ShorArray(short[]),IntArray(int[]),LongArray(long[]),DoubleArray(double[]),FloatArray(float[]),
      *    BooleanArray(boolean[]),CharArray(char[])
      *
-     *
-     *    arrayof(ayni tip degerler) seklinde tanimlanabilir.
-     *    arrayOf<Any>(farkli tip degerler) seklinde tanimlanabilir.
+     *          --Kotlin'de array oluşturmak için aşağıdaki yardımcı fonksiyonlar kullanılabilir.--
+     *    arrayof(ayni tip degerler) seklinde tanimlanabilir.  ----> arrayOf(hepsi aynı tip)
+     *    arrayOf<Any>(farkli tip degerler) seklinde tanimlanabilir. farklı tip değerler vereceksek kullanırız.  ---> Buradaki değerler Boxed olark mı yoksa UnBoxed
      *    arrayOfNulls<Type>(size) ise verilen boyut kadar null deger iceren bir dizi tanimlanabilir.
      *    emptyArray() bos array tanimlar.
+     *
+     *    bir array oluştururken genelde hep iş yerlerinde göreceğimiz şey arrayOf'un çok sık kullanıldığıdır.
+     *    bu bize primitive tip değil class olan array'i verecek(object type array).
      *
      */
 
@@ -30,60 +33,65 @@ fun main() {
      */
 
     //                   index =  0  1   2   3   4   5
-    val studentNumbers = arrayOf(13, 45, 53, 17, 21, 10) // Sırası önemli degildir.
-    val studentNames = arrayOf("Ahmet", "Buket", "Veli", "Derya")
-    val firstCharOfNames = arrayOf('A', 'B', 'V', 'D')
-    val mixedArray = arrayOf<Any>(17, "Buket", 'V', true)// Herhangi bir tipten veriyi array'in icerisine koyabiliyoruz.
+    val studentNumbers = arrayOf(13, 45, 53, 17, 21, 10) // Sırası önemli degildir. // fonksiyon kullanımı
+    val studentNames = arrayOf("Ahmet", "Buket", "Veli", "Derya")  // fonksiyon kullanımı
+    val firstCharOfNames = arrayOf('A', 'B', 'V', 'D')  // fonksiyon kullanımı
+    val mixedArray = arrayOf<Any>(13, "Ahmet", 'V', true)// Herhangi bir tipten veriyi array'in icerisine koyabiliyoruz.
     //<Any> tüm tiplerin üzerinde bulunan bir class, buradaki interfacedir.Arayüz ve interface aynı seydir.
 
 
     val arrayofNulls = arrayOfNulls<String>(4)//Tipini ve size'ini belirtmek zorundayiz.
-    // null null null null diye çıktı verir.
-    println(arrayofNulls.joinToString())
+    println(arrayofNulls.joinToString()) // null null null null diye çıktı verir.
 
     //Bombos bir array olusacaktir.Boyut vermedigimiz tek array emptyArray'dir.
-
-
-    val emptyArray = emptyArray<String>() // "","","","" bunu yapmiyor,size'i 0 olan bir array olusturur.
+    val emptyArray = emptyArray<String>() // "","","","" bunu yapmiyor,size'ı 0 olan bir array olusturur.
     var emptyArray2: Array<String> = emptyArray()
 
+    //emptyArray'ler olusturuldukların da heap de bir deger kaplamazlar ellerinde deger yok, sadece stack'de degerleri var  heap de ama bir yer kaplamıyorlar.
+//    emptyArray[5] = "Yeni Eleman "
+//    bu array'in kaç değere sahip olacağını belirtmedik. bos bir Array oldugu icin
+//    Herhangi bir indeksi olmaz  icin bu islemi yapamayiz. ekleme yapmak istedigimiz de ArrayIndexOutOfBoundsException hatasi aliriz.
 
-    /**
-     *     emptyArray+= "Arda"
-     *     emptyArray2 = arrayOf("Arda")  Bu ikisi memory karsiliklarinda ayni anlama gelir.
-     */
-
-
-//    emptyArray[0] = "arda" Herhangi bir indeksi olmadigi icin bu islemi yapamayiz.ArrayIndexOutOfBoundsException hatasi aliriz.
-
-    println("------------------------------------------------------------------------------")/*----------------------------------------------------------------------------------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Array'ler sabit büyüklüktedir.
      * Array'lere ekleme veya çıkarma yapmak aynı Stringlerde oldugu gibi memory'de yeni bir Array olusturulmasina neden olur.
-     * Biz herhangi bir arraye(nasıl tanımlandıgı farketmez) yeni bir ekleme yapıyorsak,bu durumda mevcut durumdaki array'i
-     * refere etmeyi bırakır,onun yerine yeni bir array olusturur.
+     * bir array'e yeni bir ekleme yapıyorsak,bu durumda mevcut durumdaki array'i referans etmeyi bırakır,onun yerine yeni bir array olusturur
+     * ve onu referans alır. memory'de en son eklenmiş halini tutar.
      */
 
-    var cityArray = arrayOf("Samsun", "İstanbul", "Ankara")
-    cityArray += "Sivas"
-    println(cityArray.joinToString())
-
-    //Yukaridaki durumda,ilk basta arrayi olusturur,sonra biz Sivas'i ekledigimizde yeni bir array olusturup,
-    //bu durumda cityArray,eklenmis halini refere eder.
-
+    var citiesArray = arrayOf("İstanbul", "Tokat", "Hatay")
+    citiesArray += "Sivas"
     //Birden fazla ekleme yapmak icin,
-    cityArray += arrayOf("İzmir", "Antalya")
-    println(cityArray.joinToString())
+    citiesArray += arrayOf("İzmir", "Konya") // her zaman ekleme yaptığımızda arkaplanda yeni bir array oluşturulur. altta acıklaması var).
+    println(citiesArray.joinToString())
+    //  Yukaridaki durumda,ilk basta arrayi olusturur,sonra biz Sivas'i ekledigimizde yeni bir array olusturup, memory'e yeni bir array olarak eklenir.
+    //  yani ilk durum memory de kalmaya devam ediyor. yanına ikinci bir array olarak eklediğimiz 'sivas' ile beraber ikinci bir array oluşturuluyor(memory'de).
+    //  bu durumda riversArray,eklenmis halini refere eder ve onunla değişmiş olur yeni eklenenle beraber son halini alır.
 
-    cityArray.forEach {
-        print("$it ")
+    citiesArray.forEach {
+        print("$it, ")
     }
-    println()/*----------------------------------------------------------------------------------------------------------------------------------------------*/
-    println("------------------------------------------------------------------------------")
+    /**
+     *  soru ----> Array'ler mutable mıdır, immutable mıdır? index degerinin degisip degisemedigi soruluyor demek.
+     *  1- önüne val koyarsak bu array'ler den bağımsız olarak bu array'in değerinin readOnly olmasına neden olur.
+     *  2- Array'in önünde var,val olmasına bakmaksızın(ister var olsun ister val olsun)
+     *  icinde ki her bir index'de ki value degisebildigi icin index'inde ki value'lara göre mutable'dır. (var olsa da degisir, val olsa da degisir.)
+     *  3-Array'lere biz ekleme yaptıgımız da aslında yeniden bir atama islemi yapılır(memory karsılıgı olarak). var olan Array bırakılır yerine yeni bir Array eklenir.
+     *  bu sebeple  biz var olan Array'i hic bir zaman aslında memory'de kullanamadıgımız icin (ekleme islemi sırasında) immutable'dır diyebiliriz.
+     *
+     *   // yukarda ki acıklamayı yapamıyorsan; en genel tabiri ile
+     *  Array'lerde index value'larını  degistirebildigimizden dolayı 'mutable' deriz val olsalar bile. (bunu desek yeterli)
+     *
+     *      1-2-3'ün özet hali;
+     *  ekleme yaptıgımızda Array'in kendisinin üzerine eklemiyoruz, Array'i bırakıyoruz yenisini oluşturup eklediğimiz icin aslında İmmutable ama veriler üzerinde degisiklik yapıyorsak mutable.
+     * */
+
+    /**----------------------------------------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Array<Type>{higher order function} seklinde de tanimlanabilir.
+     * Array<Type>(size){higher order function} seklinde de tanimlanabilir.
      * Bu durumda higher order function icerisinde son satira denk gelen degerler diziyi olusturur.
      * Higher order function,icerisi dizinin boyutu kadar index'i(it) bir arttirarak calisir.(0,1,2,3,...)
      * Eger biz arrayleri olusturma islemi sirasinda degerleri bir takim islemlere tutma amacimiz var ise,
@@ -91,157 +99,149 @@ fun main() {
      *
      */
 
-    // 5 elemanli,tum elemanlari (index * 3.14) yapıp degerleri bize donduren bir  dizi olusturur.
-
-    val normalArray = Array<Double>(5) {
-        //pseudo codes
-        //pseudo codes
-        //pseudo codes
+    // 5 elemanli,tum elemanlari 3.14 olan bir dizi olusturur. 0 dan baslar index olarka 5 tane elemanlı array olur.
+    val carNamesMini = Array<Double>(5) {
+        // Array'in constructor kullanımı -- value'larımızı herhangi bir isleme tabi tutmak istiyorsak
+        // birden fazla kod yazma alanına ihtiyac duyacaksak, bu durum da bu sekilde constructor'lı sekilde olusturuyoruz.
+        //  pseudo Codes
+        //  pseudo Codes
+        //  pseudo Codes
         3.14 * it
-
     }
-    println(normalArray.joinToString())
+    println(carNamesMini.joinToString())
 
 
     // 10 elemanli,0-9 arasindaki index degerlerinin karesini alan bir dizi olustur.
-    // Boyle bir kullanimi yapmasak daha iyi olur :)
-    val squareArray = Array<Unit>(10) {
-
-        print("${it * it} ")
+    // Boyle bir kullanimi yapmasak daha iyi olur. KULLANMIYORUZ.
+    val carNames = Array<Unit>(10) {
+        //  {0,1,2,4,9,16,25,36,49,81}
+        print((it * it).toString() )
     }
 
-    println()/*----------------------------------------------------------------------------------------------------------------------------------------------*/
-    println("------------------------------------------------------------------------------")
+    /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * ByteArray,ShortArray,IntArray,LongArray,DoubleArray,FloatArray gibi ya da bunların Unsigned halleri primitive array tanımlamaları da yapılabilir.
+     * ByteArray, ShortArray, IntArray, LongArray, DoubleArray, FloatArray gibi
+     * ya da bunların Unsigned halleri primitive array tanımlamaları da yapılabilir.
 
-     * .toCharArray() gibi fonksiyonlar ile Object-Typed bir array Primitive-Typed bir array'e donusturulebilir.
-     * .toTypedArray() fonksiyonu ile Primitive-Typed bir array'i Object-Typed bir array' donusturebiliriz.
+     * Primitive-type array'i (dizileri) Object-type dizilere dönüştürmek için: .toTypedArray() fonksiyonunu, işlevini kullanabiliriz.
+     * Bu işlev, bir dizi içindeki öğeleri bir Object türünde bir diziye dönüştürür.
+     * val primitiveArray = intArrayOf(1, 2, 3) // Primitive-tipi dizi
+     * val objectArray = primitiveArray.toTypedArray() // Object-tipi dizi
+
+     * Object-type dizileri Primitive-type dizilere dönüştürmek için: Kotlin'in standart kütüphanesinde,
+     * Object-type dizileri Primitive-type dizilere dönüştürmek için çeşitli yöntemler bulunur.
+     * Örneğin, toBooleanArray(), toByteArray(), toCharArray() gibi yöntemler, bir Object-typed diziyi ilgili Primitive-typed bir diziye dönüştürür.
+
+     * `toBooleanArray()`: Boolean primitive bir array'e dönüştürmek için kullanılır.
+     * `toByteArray()`: Byte primitive bir array'e dönüştürmek için kullanılır.
+     * `toCharArray()`: Char primitive bir array'e dönüştürmek için kullanılır.
+     * `toDoubleArray()`: Double primitive bir array'e dönüştürmek için kullanılır.
+     * `toFloatArray()`: Float primitive bir array'e dönüştürmek için kullanılır.
+     * `toIntArray()`: Int primitive bir array'e dönüştürmek için kullanılır.
+     * `toLongArray()`: Long primitive bir array'e dönüştürmek için kullanılır.
+     * `toShortArray()`: Short primitive bir array'e dönüştürmek için kullanılır.
+            Örnek;
+     * val objectArray = arrayOf(1, 2, 3) // Object-tipi dizi
+     * val primitiveArray = objectArray.toIntArray() // Primitive-tipi dizi
+
 
      * Bu tarz tanimlamalarda ilgili index degerine atama icin set(index,value) ya da [ index ] = value kullanilabilir.
      * Bu tarz tanimlamalarda ilgili index degerindeki degisken degerine get(index) ya da [ index ] seklinde ulasilabilir.
      */
 
 
-    val firstCharOfCountries = CharArray(4)
-    firstCharOfCountries[0] = 'T'
-    firstCharOfCountries.set(1, 'U')
+    val firstCharOfCountries = CharArray(5)
+    firstCharOfCountries[0] = 'S'
+    firstCharOfCountries.set(1, 'A')
+    firstCharOfCountries.set(3, 'E')
 
-    println(firstCharOfCountries[0])
-    println(firstCharOfCountries.get(1))
+    println("firstCharOfCountries index 3 : " + firstCharOfCountries.get(3))
+    println("firstCharOfCountries index 1 : " + firstCharOfCountries[1])
 
-    println(firstCharOfCountries.joinToString())
 
     val charSample: CharArray =
-        arrayOf('T', 'U', 'R', 'K', 'E', 'Y').toCharArray() // Bu sekilde primitive halini alabiliriz.
+        arrayOf('S', 'A', 'M', 'E', 'T').toCharArray() // Bu sekilde primitive halini alabiliriz.
     println(charSample)
 
-    val byteArray = ByteArray(5)
-    val shortArray = ShortArray(5)
-    val intArray = IntArray(5)
-    val longArray = LongArray(5)
-    val doubleArray = DoubleArray(5)
-    val charArray = CharArray(5)
+    /**         Primitive-type arrays tanımlama            */
     val booleanArray = BooleanArray(5)
-    val floatArray = FloatArray(5)
+    val byteArray = ByteArray(2)
+    val charArray = CharArray(2)
+    val doubleArray = DoubleArray(2)
+    val floatArray = FloatArray(2)
+    val intArray = IntArray(2)
+    val longArray = LongArray(2)
+    val shortArray = ShortArray(2)
+    // yukarda ki gibi deger vermeden bos bir array olarak da olusturabiliriz ya da deger vererek de yapabiliriz
+    val booleanArray1 = booleanArrayOf(true,true,false)
+    val charArray1 = charArrayOf('s', 'a', 'm', 'e', 't')
 
-    println("ByteArray:${byteArray.joinToString()}")
-    println("ShortArray:${shortArray.joinToString()}")
-    println("IntArray:${intArray.joinToString()}")
-    println("LongArray:${longArray.joinToString()}")
-    println("BooleanArray:${booleanArray.joinToString()}")
-    println("FloatArray:${floatArray.joinToString()}")
-    println("DoubleArray:${doubleArray.joinToString()}")
-    println("CharArray:${charArray.joinToString()}")
+    println("BooleanArray: ${booleanArray.joinToString()}")
+    println("CharArray: ${charArray.joinToString()}")
+    println("IntArray: ${intArray.joinToString()}")
+    println("DoubleArray: ${doubleArray.joinToString()}")
 
-
-    println("------------------------------------------------------------------------------")
-    val numbersArray = IntArray(5) {
-        println("Arda baba")
-        10 * it
-    }
-    println("NumbersArray:${numbersArray.joinToString()}")
-
-    val doubleArray2 = DoubleArray(5) {
-
-        2.5 * it
-    }
-
-
-    println("DoubleArray2:${doubleArray2.joinToString()}")
-
-
-    println()/*----------------------------------------------------------------------------------------------------------------------------------------------*/
     println("------------------------------------------------------------------------------")
 
     /**
-     * val ile tanimlanmis bi arrayin herhangi bir indexindeki degeri degistirebiliriz.
+     * val ile tanimlanmis bi array'in herhangi bir index'indeki degeri degistirebiliriz.
      * val indexdeki degerlerin degismesine karısmaz
-     * Anca ilgili bir diziyi baska bir diziye esitleyemeyiz.
+     * Ancak ilgili diziyi baska bir dizi ile esitlememize izin verilmez.
      * Bunun icin tanimlamayi var ile degistirmemiz gerekir.
-     * Arrayler mutable'dir,icerisindeki indexlerdeki degerler degisebilir.
+     *
+     * Arrayler mutable'dir,icerisindeki index'lerdeki degerler degisebilir.
      */
 
-    val awesomeArray = arrayOfNulls<Int>(4)
-    println(awesomeArray.joinToString())
-    awesomeArray[2] = 2
+    val awesomeArray = arrayOfNulls<String>(5)
+    awesomeArray[2] = "samet"
+    awesomeArray[2] = "SAMET"
     println(awesomeArray.joinToString())
 
-//    awesomeArray = arrayOf(1,2,3,4,5) Bu sekilde calismaz.
+//    awesomeArray = arrayOf("foo","boo","goo","doo","loo")   Bu sekilde calismaz. val tanımlı oldugu icin var olması lazım calisması icin.
 
     /**
-     *  Array'in size'i disina (boyutu disina) cikiyorsak,IndexOutOfBound hatasi aliriz.
+     *  Array'in size'i disina (boyutu disina) cikiyorsak, IndexOutOfBound hatasi aliriz.
      */
-    awesomeArray[3] = 10
+    //awesomeArray[5] = "boyut disi, hata verir"
     println(awesomeArray.joinToString())
-//    awesomeArray[4] = 9 bu kisim calismaz.
 
-    println()/*----------------------------------------------------------------------------------------------------------------------------------------------*/
-    println("------------------------------------------------------------------------------")
+    /* ----------------------------------------------------------------------------------------------------------------------------------------------*/
 
-    //2 boyutlu arrayler
-    val twoDArray = Array(2) {
-        Array(2) {
-            0
-        }
-    }
+    //2 boyutlu arrayler(diziler)
+    val twoDArray = Array(2) { Array(2) { 0 } }
     println(twoDArray.contentDeepToString())
+    // [[0, 0], [0, 0]]
 
-
-    //3 boyutlu arrayler
-    val threeDArray = Array(3) {
-        Array(3) {
-            Array(3) {
-                0
-            }
-        }
-    }
+    //3 boyutlu arrayler(diziler)
+    val threeDArray = Array(3) { Array(3) { Array(3) { 0 } } }
     println(threeDArray.contentDeepToString())
+    // [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+    // [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+    // [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
 
-    //Arrayler her zaman mutabledir.
+    //Array'ler her zaman degisebilirdir(mutabledir).
     val simpleArray = arrayOf(1, 2, 3)
     simpleArray[0] = 10
     twoDArray[0][0] = 2
 
-    println(simpleArray[0])
-    println(twoDArray[0][0])
+    println(simpleArray[0].toString()) // 10
+    println(twoDArray[0][0].toString()) // 2
 
 
-    //  Ayni zamanda array'ler üst classlari yerine atanamazlar.(invariant)
-    //  Atayamamak var ya da val olmasindan kaynaklanmaz.
-    //  Herhangi bir array'in ust classindaki bir array'in yerine atanamamasi durumuna invariant denir.
-    //  Mülakatta çıkmayabilir fakat detay bir kotlin sınavında sorulabilir
-
+    //  Ayni zamanda array'ler üst class'larin yerine atanamazlar.(invariant) -  Atayamamak var ya da val olmasindan kaynaklanmaz.
+    //  Herhangi bir array'in ust classindaki bir array'in yerine atanamamasi durumuna invariant denir. ( üst class'ın child class yerine kullanılamaması durumu.)
     val arrayOfString: Array<String> = arrayOf("V1", "V2")
 //    val arrayOfAny : Array<Any> = arrayOfString Burasi calismaz.
+    var arrayOfAny : Array<Any> = arrayOf("V1", "V2")
 
-    val arrayOfAny2: Array<Any> = arrayOf("V1", "V2")
-    // Yukaridaki string array'in karsiligini direk olarak atayamiyoruz.
-    // Fakat ayni array'i arrayOf ile verebiliriz.
 
-    println()/*----------------------------------------------------------------------------------------------------------------------------------------------*/
-    println("------------------------------------------------------------------------------")
+    /* ----------------------------------------------------------------------------------------------------------------------------------------------*/
+    /** Array'ler ekleme ve silme gibi işlemler için kullanmamamız gereken yapılar.
+     * ekleme silme gibi islemlerimiz olucaksa collection'ları kullanırız. daha performanslı yapılar.
+     * ekleme silme olmucak sadece listeleme, göstermek, daha basit yapılar icin Array'ler kullanırız. */
+    /* ----------------------------------------------------------------------------------------------------------------------------------------------*/
+
 
     /**
      * vararg kelimesi ile istedigimiz sayida parametreyi kabul edebiliriz.
