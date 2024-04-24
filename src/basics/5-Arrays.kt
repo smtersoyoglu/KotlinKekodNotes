@@ -99,7 +99,7 @@ fun main() {
      *
      */
 
-    // 5 elemanli,tum elemanlari 3.14 olan bir dizi olusturur. 0 dan baslar index olarka 5 tane elemanlı array olur.
+    // 5 elemanli,her bir elemanı index değeri ile 3.14'ü carpan bir dizi olusturur. (0, 3.14, 6.28, 9.42, 12.56)  0 dan baslar index olarak 5 tane elemanlı array olur.
     val carNamesMini = Array<Double>(5) {
         // Array'in constructor kullanımı -- value'larımızı herhangi bir isleme tabi tutmak istiyorsak
         // birden fazla kod yazma alanına ihtiyac duyacaksak, bu durum da bu sekilde constructor'lı sekilde olusturuyoruz.
@@ -234,6 +234,11 @@ fun main() {
     val arrayOfString: Array<String> = arrayOf("V1", "V2")
 //    val arrayOfAny : Array<Any> = arrayOfString Burasi calismaz.
     var arrayOfAny : Array<Any> = arrayOf("V1", "V2")
+    /**
+     *  Array'ler invariant'mıdır?, covariant mıdır ? diye sorulursa
+     *  Array'ler invariant dır. üst class'larından olusturulmus array'lere yeniden atama yapılırken
+     *  alt class'ların arraylist'leri verilemiyor.
+     * */
 
 
     /* ----------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -245,69 +250,86 @@ fun main() {
 
     /**
      * vararg kelimesi ile istedigimiz sayida parametreyi kabul edebiliriz.
-     * Eger vararg'a denk gelecek sekilde bir array kullanmak istiyorsak,"spread" "*" operatoru kullaniriz.
-     * Spread operatoru,verdiginiz array'in elemanlarinin her birini bir variable olacak sekilde parametre olarak paslar.
+     * Eger vararg'a denk gelecek sekilde bir array kullanmak istiyorsak, "spread" "*" operatoru kullaniriz.
+     * Spread operatoru, verdiginiz array'in elemanlarinin her birini bir variable olacak sekilde parametre olarak paslar.
      */
 
     val lettersArray = arrayOf("c", "d")
     printAllStrings("a", "b", "c", "d", "e")
-    println()
-    printAllStrings("a", "b", *lettersArray)
+    printAllStrings("a", "b", *lettersArray,"f") // * operatoru array'in icinde ki her bir elemanı kullanıldıgı yere koyuyor.
+    // "a", "b", "c", "d" ,"f" oluyor yani.
 
-    println()/*----------------------------------------------------------------------------------------------------------------------------------------------*/
-    println("------------------------------------------------------------------------------")
+
+    /* ----------------------------------------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Array'leri karşılaştırırken == operatorunu kullanamayiz.== operatoru o array'lerin referans objectlerini karşılaştırır.
-     * contentEquals ya da contentDeepEquals kullanmamiz gerekir.
+     * Array'leri karşılaştırırken == operatorunu kullanamayiz. == operatoru o array'lerin referans object'lerini karşılaştırır.
+     * contentEquals ya da contentDeepEquals kullanmamiz lazim.
      */
+
     val array1 = intArrayOf(1, 2, 3)
     val array2 = intArrayOf(1, 2, 3)
 
-    println(array1 == array2) //Aslinda degiskenlerdeki === gibi dusunebiliriz.Memory'de tutuldugu yerler farkli oldugu icin false degeri aliriz.
-    //Degerleri ayni olsa bile!!
+    if (array1 == array2) {
+        println(true)
+    }else {
+        println(false)
+    }
+    //Aslinda degiskenlerdeki === gibi dusunebiliriz. Memory'de tutuldugu yerler farkli oldugu icin false degeri aliriz. Degerleri ayni olsa bile!!
 
     val array3 = array1
     val array4 = array1
-    println(array3 == array4) // Fakat burda array3 ve array4 ayni yeri isaret eder,referanslari aynidir.Burda true degerini aliriz.
+
+    if (array3 == array4) {
+        println(true)
+    }else {
+        println(false)
+    }
+    // array3 ve array4 referanslari aynidir, ayni yeri isaret eder, true degerini verir.
 
 
-    println(array1.contentEquals(array2))//Tek boyutlu bir arrayimiz var ise icerideki degerleri karsilastirir.
+    println(array1.contentEquals(array2)) // true, icerde'ki tüm verileri karsilastirmak istiyorsak contentEquals ve  contentDeepEquals kullaniriz.
+    //Tek boyutlu bir arrayimiz var ise contentEquals kullaniriz. icerideki degerleri karsilastirir.
 
     val array5 = arrayOf(intArrayOf(1, 2), intArrayOf(3, 4))
     val array6 = arrayOf(intArrayOf(1, 2), intArrayOf(3, 4))
 
-    println(array5.contentDeepEquals(array6)) // Cok boyutlu bir arrayimiz var ise icerideki degerleri karsilastirir.
+    println(array5.contentDeepEquals(array6)) // true
+    // Cok boyutlu bir arrayimiz var ise contentDeepEquals kullaniriz.  icerideki degerleri karsilastirir.
 
 
-    // https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/ Array'lerde kullanabilecegimiz fonksiyonlarin listesi.
+    // https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/ --> Array'lerde kullanabilecegimiz fonksiyonlarin listesi.
 
-    val sumArray = arrayOf(1, 2, 3, 4)
-    println(sumArray.sum())
+    /**
+     *  .sum() -> toplama islemi; sadece number typed array'ler ile calısır.
+     *  .shuffle() -> random karistirma; elemanları random bir sekilde yer degistirir.
+     * */
 
-    val shuffledArray = arrayOf(1, 2, 3, 4)
-    shuffledArray.shuffle()
+    val sumArray = arrayOf(1, 2, 3)
+    println(sumArray.sum()) // icerdeki elemanların toplamını yapar
+
+    val shuffledArray = arrayOf(1, 2, 3)
+    shuffledArray.shuffle() // elemanların yerlerini karıstırma
     println(shuffledArray.joinToString())
 
-    println()/*----------------------------------------------------------------------------------------------------------------------------------------------*/
-    println("------------------------------------------------------------------------------")
 
+    /* ----------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
     /**
-     * Array'leri List'e ve Set'e dönüştürebiliriz.
+     * Array'leri Collections'lara, List'e ve Set'e dönüştürebiliriz.
      */
 
     val sampleArray = arrayOf("a", "b", "c", "c")
-    println(sampleArray.toSet())
+    println(sampleArray.toSet()) // [a, b, c]
 
-    println(sampleArray.toList())
+    println(sampleArray.toList()) // [a, b, c, c]
 
     /**
-     * Map'lere de donusturebiliriz.Ancak bunun icin arrayin ozel olarak Pair<K,V> formunda olması lazim.
+     * Map'lere de donusturebiliriz.Ancak bunun icin array'in özel olarak Pair<K,V> formunda olması lazim.
      */
 
-    val cities = arrayOf("Istanbul" to 34, "Samsun" to 55, "Bursa" to 16)
+    val cities = arrayOf("Istanbul" to 34, "Tokat" to 60, "Sivas" to 58)
     println(cities.toMap())
 }
 
