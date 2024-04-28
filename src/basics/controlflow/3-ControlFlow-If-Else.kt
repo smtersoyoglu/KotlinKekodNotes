@@ -106,7 +106,7 @@ fun main() {
     } else {
         otherMethod()
     }
-    // yukarda ki gibi yazmaktansa
+    // yukarda ki gibi yazmaktansa alttakini tercih etmeliyiz, okunaklık olarak altta ki daha dogru bir kullanım.
     if (isStudent) {
         println("Student")
         throw IOException()
@@ -114,6 +114,16 @@ fun main() {
     }
 
     otherMethod()
+
+    if (isStudent == true) {
+
+    }
+    // yukarda ki ile altta ki aynı dır true ise iceri gir demektir. esitlemek yerine direk olarak yazabiliriz.
+    // nullable ise sade kullanım yapamayız. sade(altta ki) kullanım icin ya true ya da false olmalıdır deger.
+    if (isStudent){
+
+    }
+
 
 }
 private fun otherMethod() {}
