@@ -1,6 +1,15 @@
 package basics.functions
 
 /**
+ *      fun keywordu ile fonksiyonlar baslar.
+ *      fonksiyon ismi verilir.
+ *      parametre parantezleri acilir ve parantezler girilir.
+ *      : operatoru ve geri donus degeri yazilir.
+ *      fonksiyon body'si acilir ve kapanir.
+ *      Geri donus degeri verilmeyen fonksiyonlar Unit tipini geri dondurur.
+ */
+
+/**
  * Fonksiyon cagirilirken ismi ve parametreleri kullanilir.
  * Eger bir geri donusu varsa bir degiskene aktarilir.
  * : operatoru ve geri donuş degeri yazilir.

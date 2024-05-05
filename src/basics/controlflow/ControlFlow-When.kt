@@ -142,4 +142,17 @@ fun main() {
         }
     }
 
+    // elvis operatoru kullanimi ----> ?: kısmı su sekil calısır bu degerin sol tarafında ki kod null degilse(null döndürmüyorsa) sol kısmı al.(calistir)
+    // eger sol kısım null ise sag degeri al demektir.
+    val message: String? = getMessage()
+    val safeMessage: String = message ?: "Mesaj yok"
+    println(safeMessage)
+    // Bu kodda getMessage() fonksiyonu null bir değer döndürürse, safeMessage değişkenine “Mesaj yok” atanır.
+    // Eğer message null değilse, safeMessage değişkenine message’ın değeri atanır.
+    // Elvis operatörü, null kontrolünü kısa ve okunaklı bir şekilde yapmanızı sağlar.
+
+
+}
+fun getMessage(): String? {
+    return null
 }
