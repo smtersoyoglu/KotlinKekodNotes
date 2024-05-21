@@ -146,31 +146,6 @@ fun main() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**     -- ilerde ki highorder function konusunu ile ilgili
      *   Eger bir Higher-order function inline ile beraber kullanılıyorsa,
      *   interface'li kullanıma göre daha performanslı calısır.
@@ -179,5 +154,5 @@ fun main() {
 
 
 
-}
+
 
